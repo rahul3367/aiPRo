@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Airline Scheduling System CLI</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background: #1a1a2e;
+            font-family: 'Courier New', monospace;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .terminal-container {
+            background: #0f0f23;
+            border-radius: 10px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+            overflow: hidden;
+            max-width: 900px;
+            width: 100%;
+        }
+        
+        .terminal-header {
+            background: #2d2d44;
+            padding: 10px 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .terminal-button {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+        
+        .btn-close { background: #ff5f56; }
+        .btn-minimize { background: #ffbd2e; }
+        .btn-maximize { background: #27c93f; }
+        
+        .terminal-title {
+            margin-left: 10px;
+            color: #8b8b8b;
+            font-size: 13px;
+        }
+        
+        .terminal-body {
+            background: #0a0a14;
+            color: #00ff00;
+            padding: 30px;
+            font-size: 14px;
+            line-height: 1.6;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+        
+        .terminal-body::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        .terminal-body::-webkit-scrollbar-track {
+            background: #0f0f23;
+        }
+        
+        .terminal-body::-webkit-scrollbar-thumb {
+            background: #2d2d44;
+            border-radius: 4px;
+        }
+        
+        .header-box {
+            border: 2px solid #00ff00;
+            padding: 15px;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+        
+        .header-title {
+            font-size: 18px;
+            font-weight: bold;
+            letter-spacing: 2px;
+        }
+        
+        .menu-section {
+            margin-bottom: 30px;
+        }
+        
+        .menu-title {
+            color: #00d9ff;
+            font-weight: bold;
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+        
+        .menu-item {
+            margin: 8px 0;
+            padding-left: 10px;
+        }
+        
+        .prompt {
+            color: #ffff00;
+            margin-top: 15px;
+        }
+        
+        .cursor {
+            animation: blink 1s infinite;
+            display: inline-block;
+            width: 8px;
+            height: 14px;
+            background: #00ff00;
+            margin-left: 5px;
+        }
+        
+        @keyframes blink {
+            0%, 49% { opacity: 1; }
+            50%, 100% { opacity: 0; }
+        }
+        
+        .divider {
+            color: #00ff00;
+            margin: 20px 0;
+        }
+        
+        .output-section {
+            margin-top: 25px;
+            border-top: 1px solid #2d2d44;
+            padding-top: 20px;
+        }
+        
+        .success {
+            color: #00ff00;
+        }
+        
+        .info {
+            color: #00d9ff;
+        }
+        
+        .warning {
+            color: #ffbd2e;
+        }
+        
+        .error {
+            color: #ff5f56;
+        }
+        
+        .table {
+            margin: 15px 0;
+            width: 100%;
+        }
+        
+        .table-header {
+            border-bottom: 2px solid #00ff00;
+            padding: 8px 0;
+            color: #00d9ff;
+            font-weight: bold;
+        }
+        
+        .table-row {
+            padding: 6px 0;
+            border-bottom: 1px solid #2d2d44;
+        }
+        
+        .status-box {
+            margin: 20px 0;
+            padding: 15px;
+            border: 1px solid #2d2d44;
+            background: #0f0f23;
+        }
+        
+        pre {
+            color: inherit;
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="terminal-container">
+        <div class="terminal-header">
+            <div class="terminal-button btn-close"></div>
+            <div class="terminal-button btn-minimize"></div>
+            <div class="terminal-button btn-maximize"></div>
+            <span class="terminal-title">python airline_scheduling.py</span>
+        </div>
+        
+        <div class="terminal-body">
+            <div class="header-box">
+                <div class="header-title">═══════════════════════════════════════════</div>
+                <div class="header-title">AIRLINE & CARGO SCHEDULING EXPERT SYSTEM</div>
+                <div class="header-title">═══════════════════════════════════════════</div>
+            </div>
+            
+            <div class="menu-section">
+                <div class="menu-title">MAIN MENU:</div>
+                <div class="menu-item">1. Add New Flight</div>
+                <div class="menu-item">2. Add New Cargo</div>
+                <div class="menu-item">3. View Flight Schedule</div>
+                <div class="menu-item">4. View Cargo Assignments</div>
+                <div class="menu-item">5. View Resource Availability</div>
+                <div class="menu-item">6. Generate Reports</div>
+                <div class="menu-item">7. Exit</div>
+            </div>
+            
+            <div class="prompt">Enter your choice: 1<span class="cursor"></span></div>
+            
+            <div class="output-section">
+                <div class="divider">═══════════════════════════════════════════</div>
+                <div class="menu-title">--- ADD NEW FLIGHT ---</div>
+                
+                <div style="margin: 15px 0;">
+                    <div>Enter Flight Number: <span style="color: #fff;">FL123</span></div>
+                    <div>Enter Destination: <span style="color: #fff;">Mumbai</span></div>
+                    <div>Enter Distance (km): <span style="color: #fff;">1500</span></div>
+                    <div>Enter Departure Time: <span style="color: #fff;">10:30</span></div>
+                </div>
+                
+                <div style="margin: 20px 0;">
+                    <div class="info">Processing...</div>
+                    <div class="success">✓ Flight FL123 scheduled successfully</div>
+                    <div class="success">✓ Assigned Plane: P-001</div>
+                    <div class="success">✓ Assigned Runway: R-01</div>
+                    <div class="success">✓ Fuel check: PASSED</div>
+                </div>
+                
+                <div class="divider">═══════════════════════════════════════════</div>
+            </div>
+            
+            <div class="output-section">
+                <div class="menu-title">CURRENT FLIGHT SCHEDULE</div>
+                <div class="divider">═══════════════════════════════════════════</div>
+                
+                <pre class="table-header">Flight No. | Destination  | Plane | Runway | Time  | Status</pre>
+                <pre class="divider">-----------|--------------|-------|--------|-------|--------</pre>
+                <pre class="table-row">FL123      | Mumbai       | P-001 | R-01   | 10:30 | Active</pre>
+                <pre class="table-row">FL124      | Delhi        | P-002 | R-02   | 11:00 | Active</pre>
+                <pre class="table-row">FL125      | Bangalore    | P-003 | R-01   | 12:30 | Active</pre>
+                
+                <div class="divider">═══════════════════════════════════════════</div>
+                <div class="info">Total Flights: 3</div>
+            </div>
+            
+            <div class="output-section">
+                <div class="menu-title">RESOURCE AVAILABILITY STATUS</div>
+                <div class="divider">═══════════════════════════════════════════</div>
+                
+                <div class="status-box">
+                    <div class="info" style="margin-bottom: 10px; font-weight: bold;">PLANES:</div>
+                    <div>  P-001: <span class="error">Not Available</span> (Assigned to FL123)</div>
+                    <div>  P-002: <span class="error">Not Available</span> (Assigned to FL124)</div>
+                    <div>  P-003: <span class="error">Not Available</span> (Assigned to FL125)</div>
+                    <div>  P-004: <span class="success">Available</span></div>
+                    <div>  P-005: <span class="success">Available</span></div>
+                </div>
+                
+                <div class="status-box">
+                    <div class="info" style="margin-bottom: 10px; font-weight: bold;">RUNWAYS:</div>
+                    <div>  R-01: <span class="error">Not Available</span> (In use by FL125)</div>
+                    <div>  R-02: <span class="error">Not Available</span> (In use by FL124)</div>
+                    <div>  R-03: <span class="success">Available</span></div>
+                </div>
+                
+                <div class="divider">═══════════════════════════════════════════</div>
+            </div>
+            
+            <div class="output-section">
+                <div class="menu-title">CARGO ALLOCATION REPORT</div>
+                <div class="divider">═══════════════════════════════════════════</div>
+                
+                <pre class="table-header">Cargo ID | Weight | Destination  | Flight | Status</pre>
+                <pre class="divider">---------|--------|--------------|--------|--------</pre>
+                <pre class="table-row">CG456    | 250kg  | Mumbai       | FL123  | Loaded</pre>
+                <pre class="table-row">CG457    | 180kg  | Delhi        | FL124  | Loaded</pre>
+                <pre class="table-row">CG458    | 320kg  | Mumbai       | FL123  | Loaded</pre>
+                
+                <div class="divider">═══════════════════════════════════════════</div>
+            </div>
+            
+            <div style="margin-top: 25px;">
+                <div class="info">ℹ INFO: System ready for next command</div>
+                <div class="prompt" style="margin-top: 10px;">Enter your choice: <span class="cursor"></span></div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
